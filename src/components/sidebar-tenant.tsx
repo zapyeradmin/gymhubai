@@ -36,8 +36,8 @@ export function SidebarTenant() {
   return (
     <Sidebar collapsible="icon" className="[&_[data-sidebar=sidebar]]:bg-[#151310] [&_[data-sidebar=sidebar]]:text-white">
       <SidebarHeader className="bg-[#151310] border-b border-white/5">
-        <div className="flex flex-col gap-1 px-2 py-2 group-data-[collapsible=icon]:px-0 group-data-[collapsible=icon]:items-center">
-          <img src={logoFull.url} alt="Gym Hub" className="h-8 w-auto object-contain object-left group-data-[collapsible=icon]:hidden" />
+        <div className="flex flex-col gap-1.5 px-3 py-3 group-data-[collapsible=icon]:px-0 group-data-[collapsible=icon]:items-center group-data-[collapsible=icon]:py-2">
+          <img src={logoFull.url} alt="Gym Hub" className="w-full h-auto object-contain group-data-[collapsible=icon]:hidden" />
           <img src={logoIcon.url} alt="Gym Hub" className="hidden h-8 w-8 rounded-md group-data-[collapsible=icon]:block" />
           <span className="truncate text-xs text-white/50 group-data-[collapsible=icon]:hidden">{tenant?.academy?.name ?? "—"}</span>
         </div>
