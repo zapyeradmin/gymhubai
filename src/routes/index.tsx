@@ -10,9 +10,9 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 export const Route = createFileRoute("/")({
   component: Landing,
   head: () => ({ meta: [
-    { title: "GymBoss AI — IA pra academias que querem crescer" },
+    { title: "Gym Hub — IA pra academias que querem crescer" },
     { name: "description", content: "Pare de perder alunos. Gestão completa, check-in, financeiro, agenda e IA que reativa quem some — tudo numa só plataforma fitness." },
-    { property: "og:title", content: "GymBoss AI — IA pra academias" },
+    { property: "og:title", content: "Gym Hub — IA pra academias" },
     { property: "og:description", content: "Pare de perder alunos. Reative com inteligência." },
   ]}),
 });
@@ -87,7 +87,7 @@ function Landing() {
         <div className="container mx-auto flex h-16 items-center justify-between px-4">
           <Link to="/" className="flex items-center gap-2">
             <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-[#F97316] to-[#FACC15]"><Dumbbell className="h-5 w-5 text-white" /></div>
-            <span className="text-lg font-black text-white">GymBoss AI</span>
+            <span className="text-lg font-black text-white">Gym Hub</span>
           </Link>
           <nav className="hidden md:flex items-center gap-6 text-sm font-semibold text-white/70">
             <a href="#modulos" className="hover:text-white">Módulos</a>
@@ -329,7 +329,7 @@ function Landing() {
           <div>
             <div className="flex items-center gap-2 mb-3">
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-[#F97316] to-[#FACC15]"><Dumbbell className="h-4 w-4 text-white" /></div>
-              <span className="text-white font-black">GymBoss AI</span>
+              <span className="text-white font-black">Gym Hub</span>
             </div>
             <p className="text-xs">A plataforma que faz sua academia rodar como músculo treinado.</p>
           </div>
@@ -355,7 +355,7 @@ function Landing() {
           </div>
         </div>
         <div className="container mx-auto px-4 mt-8 pt-6 border-t border-white/5 text-xs flex justify-between">
-          <span>GymBoss AI © 2026 · Feito com 🧡 para academias brasileiras</span>
+          <span>Gym Hub © 2026 · Feito com 🧡 para academias brasileiras</span>
           <Link to="/entrar" className="hover:text-[#FACC15]">Entrar</Link>
         </div>
       </footer>

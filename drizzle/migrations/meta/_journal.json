@@ -36,6 +36,13 @@
       "when": 1792559704082,
       "tag": "0004_academy_data_vencimento",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1792582441649,
+      "tag": "0005_rename_app_gym_hub",
+      "breakpoints": true
     }
   ]
 }

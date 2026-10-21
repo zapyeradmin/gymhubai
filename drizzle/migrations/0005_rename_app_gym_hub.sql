@@ -1,0 +1,1 @@
+UPDATE public.app_config SET app_name = 'Gym Hub' WHERE app_name IS DISTINCT FROM 'Gym Hub';

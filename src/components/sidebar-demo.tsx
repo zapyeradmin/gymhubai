@@ -25,7 +25,7 @@ export function SidebarDemo() {
             <Dumbbell className="h-5 w-5 text-white" />
           </div>
           <div className="flex flex-col group-data-[collapsible=icon]:hidden">
-            <span className="text-sm font-bold text-white">GymBoss AI</span>
+            <span className="text-sm font-bold text-white">Gym Hub</span>
             <span className="text-[10px] text-white/50 uppercase tracking-wider">FitZone Performance</span>
           </div>
         </div>

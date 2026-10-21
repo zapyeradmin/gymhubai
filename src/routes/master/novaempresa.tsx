@@ -26,7 +26,7 @@ import {
 } from "lucide-react";
 
 export const Route = createFileRoute("/master/novaempresa")({
-  head: () => ({ meta: [{ title: "Nova Empresa — GymBoss AI Master" }] }),
+  head: () => ({ meta: [{ title: "Nova Empresa — Gym Hub Master" }] }),
   component: Nova,
 });
 
@@ -296,7 +296,7 @@ function CredentialsModal({ creds, nome_admin, nome_academia, whatsapp, onClose 
   const loginLink = `${origin}/entrar`;
   const all = `Empresa: ${nome_academia}\nNome do Admin: ${nome_admin}\nEmail: ${creds.email_admin}\nSenha: ${creds.senha_gerada}\nLink público: ${fullLink}`;
   const waMsg = encodeURIComponent(
-    `Olá ${nome_admin}! Sua empresa ${nome_academia} foi criada no GymBoss AI.\n\n` +
+    `Olá ${nome_admin}! Sua empresa ${nome_academia} foi criada no Gym Hub.\n\n` +
     `*Dados de acesso*\nNome do Admin: ${nome_admin}\nEmail do Admin: ${creds.email_admin}\nSenha do Admin: ${creds.senha_gerada}\n\n` +
     `Entrar: ${loginLink}\nLink público de matrícula: ${fullLink}`
   );

@@ -35,7 +35,7 @@ const searchSchema = z.object({
 
 export const Route = createFileRoute("/master/listaempresa")({
   validateSearch: zodValidator(searchSchema),
-  head: () => ({ meta: [{ title: "Empresas — GymBoss AI Master" }, { name: "description", content: "Gerencie todas as empresas cadastradas." }] }),
+  head: () => ({ meta: [{ title: "Empresas — Gym Hub Master" }, { name: "description", content: "Gerencie todas as empresas cadastradas." }] }),
   component: Lista,
 });
 
@@ -369,7 +369,7 @@ function SenhaDialog({ a, onClose }: { a: any; onClose: () => void }) {
     try { setRes(await fn({ data: { academy_id: a.id, senha: gerar ? "" : senha } })); toast.success("Senha alterada"); }
     catch (e) { toast.error((e as Error).message); } finally { setBusy(false); }
   };
-  const msg = res ? `Olá ${res.nome_admin}! Seu acesso ao GymBoss AI (${a.name}):\nEmail: ${res.email}\nSenha: ${res.senha}\nAcesse: ${typeof window !== "undefined" ? window.location.origin : ""}/entrar` : "";
+  const msg = res ? `Olá ${res.nome_admin}! Seu acesso ao Gym Hub (${a.name}):\nEmail: ${res.email}\nSenha: ${res.senha}\nAcesse: ${typeof window !== "undefined" ? window.location.origin : ""}/entrar` : "";
 
   return (
     <Dialog open onOpenChange={(o) => { if (!o) onClose(); }}>

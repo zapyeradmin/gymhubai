@@ -261,7 +261,7 @@ export const demoAIOpportunities = [
 ];
 
 export const demoMasterAcademies = [
-  { id:"ma1", name:"GymBoss Excellence",   cidade:"Sao Paulo/SP",   plano:"profissional", status:"ativa", alunos:50, mrr:197,  ultimo_acesso:"hoje" },
+  { id:"ma1", name:"Gym Hub Excellence",   cidade:"Sao Paulo/SP",   plano:"profissional", status:"ativa", alunos:50, mrr:197,  ultimo_acesso:"hoje" },
   { id:"ma2", name:"Studio Fit Alphaville",cidade:"Barueri/SP",     plano:"profissional", status:"ativa", alunos:128,mrr:197,  ultimo_acesso:"ontem" },
   { id:"ma3", name:"Power House Gym",      cidade:"Rio de Janeiro/RJ", plano:"starter",   status:"ativa", alunos:42, mrr:49,   ultimo_acesso:"2d" },
   { id:"ma4", name:"Bem Estar Pilates",    cidade:"Curitiba/PR",    plano:"pro",          status:"trial", alunos:18, mrr:0,    ultimo_acesso:"hoje" },

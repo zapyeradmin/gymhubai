@@ -56,7 +56,7 @@ function Entrar() {
           <div className="flex h-9 w-9 items-center justify-center rounded-md bg-primary">
             <Dumbbell className="h-5 w-5 text-primary-foreground" />
           </div>
-          <span className="text-xl font-bold">GymBoss AI</span>
+          <span className="text-xl font-bold">Gym Hub</span>
         </div>
         <Card>
           <CardContent className="p-6">
