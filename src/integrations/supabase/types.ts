@@ -21,6 +21,7 @@ export type Database = {
           cnpj: string | null
           cor_primaria: string | null
           created_at: string
+          data_vencimento: string | null
           documento: string | null
           documento_tipo: string | null
           email: string | null
@@ -55,6 +56,7 @@ export type Database = {
           cnpj?: string | null
           cor_primaria?: string | null
           created_at?: string
+          data_vencimento?: string | null
           documento?: string | null
           documento_tipo?: string | null
           email?: string | null
@@ -89,6 +91,7 @@ export type Database = {
           cnpj?: string | null
           cor_primaria?: string | null
           created_at?: string
+          data_vencimento?: string | null
           documento?: string | null
           documento_tipo?: string | null
           email?: string | null
@@ -755,6 +758,7 @@ export type Database = {
           cnpj: string | null
           cor_primaria: string | null
           created_at: string
+          data_vencimento: string | null
           documento: string | null
           documento_tipo: string | null
           email: string | null
