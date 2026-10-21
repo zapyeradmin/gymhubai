@@ -1,5 +1,5 @@
 import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
-import { LayoutDashboard, Users, Tag, CalendarDays, ScanLine, Wallet, BarChart3, Sparkles, UserCog, Settings, LogOut, Dumbbell, Inbox } from "lucide-react";
+import { LayoutDashboard, Users, Tag, CalendarDays, ScanLine, Wallet, BarChart3, Sparkles, UserCog, Settings, LogOut, Dumbbell, Inbox, Shield } from "lucide-react";
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
 import { useAuth } from "@/lib/auth-context";
 import { useTenant } from "@/lib/tenant-context";
@@ -75,6 +75,15 @@ export function SidebarTenant() {
       <SidebarFooter className="bg-[#151310] border-t border-white/5">
         <div className="px-2 py-1 text-xs text-white/50 truncate group-data-[collapsible=icon]:hidden">{user?.email}</div>
         <SidebarMenu>
+          {tenant?.isSuperAdmin && (
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild className="text-white/70 hover:text-white hover:bg-white/5">
+                <Link to="/master/painel" className="flex items-center gap-2">
+                  <Shield className="h-4 w-4 text-[#D97634]" /><span>Painel Super Admin</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          )}
           <SidebarMenuItem>
             <SidebarMenuButton className="text-white/70 hover:text-white hover:bg-white/5" onClick={async () => { await signOut(); navigate({ to: "/entrar", replace: true }); }}>
               <LogOut className="h-4 w-4" /><span>Sair</span>

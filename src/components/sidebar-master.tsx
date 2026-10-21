@@ -1,5 +1,5 @@
 import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
-import { Building2, BarChart3, PlusSquare, LogOut, Shield, Settings } from "lucide-react";
+import { Building2, BarChart3, PlusSquare, LogOut, Shield, Settings, ArrowLeft } from "lucide-react";
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
 import { useAuth } from "@/lib/auth-context";
 
@@ -47,6 +47,13 @@ export function SidebarMaster() {
       <SidebarFooter>
         <div className="px-2 py-1 text-xs text-sidebar-foreground/60 truncate group-data-[collapsible=icon]:hidden">{user?.email}</div>
         <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild>
+              <Link to="/app/dashboard" className="flex items-center gap-2">
+                <ArrowLeft className="h-4 w-4" /><span>Voltar para Empresa</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
           <SidebarMenuItem>
             <SidebarMenuButton onClick={async () => { await signOut(); navigate({ to: "/entrar", replace: true }); }}>
               <LogOut className="h-4 w-4" /><span>Sair</span>
