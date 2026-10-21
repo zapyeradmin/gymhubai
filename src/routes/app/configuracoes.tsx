@@ -45,12 +45,11 @@ function Config() {
         </div>
       )}
       <Tabs defaultValue="academia">
-        <TabsList><TabsTrigger value="academia">Academia</TabsTrigger><TabsTrigger value="equipe">Equipe</TabsTrigger><TabsTrigger value="aparencia">Aparência</TabsTrigger><TabsTrigger value="cobranca">Cobrança</TabsTrigger></TabsList>
+        <TabsList><TabsTrigger value="academia">Cadastrar Empresa</TabsTrigger><TabsTrigger value="equipe">Equipe</TabsTrigger><TabsTrigger value="aparencia">Aparência</TabsTrigger><TabsTrigger value="cobranca">Cobrança</TabsTrigger></TabsList>
         <TabsContent value="academia">
-          <Card><CardContent className="p-6 space-y-3 max-w-lg">
-            <div><Label>Nome</Label><Input value={name} onChange={(e)=>setName(e.target.value)} /></div>
-            <Button onClick={save}>Salvar</Button>
-          </CardContent></Card>
+          {tenant?.academyId
+            ? <CompanyForm academyId={tenant.academyId} canEdit={tenant.role === "admin" || tenant.isSuperAdmin} onSaved={() => refetch()} />
+            : <Card><CardContent className="p-6 text-sm text-muted-foreground">Nenhuma empresa vinculada.</CardContent></Card>}
         </TabsContent>
         <TabsContent value="equipe"><Card><CardContent className="p-6 text-sm text-muted-foreground">Gerencie membros em <a href="/app/equipe" className="text-primary underline">/app/equipe</a>.</CardContent></Card></TabsContent>
         <TabsContent value="aparencia"><Card><CardContent className="p-6"><Label>Cor primária</Label><div className="text-sm text-muted-foreground mt-2">{a?.cor_primaria}</div></CardContent></Card></TabsContent>
