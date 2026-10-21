@@ -48,7 +48,16 @@ function Alunos() {
 
   const create = useMutation({
     mutationFn: async () => {
-      const payload = Object.fromEntries(Object.entries(form).map(([k, v]) => [k, v.trim() === "" ? null : v.trim()]));
+      const payload = {
+        name: form.name.trim(),
+        email: form.email.trim() || null,
+        phone: form.phone.trim() || null,
+        cpf: form.cpf.trim() || null,
+        plan_name: form.plan_name.trim() || null,
+        birth_date: form.birth_date.trim() || null,
+        emergency_contact: form.emergency_contact.trim() || null,
+        medical_notes: form.medical_notes.trim() || null,
+      };
       const { error } = await supabase.from("student").insert({ ...payload, academy_id: aid! });
       if (error) throw error;
     },
