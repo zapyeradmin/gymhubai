@@ -2,6 +2,8 @@ import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
 import { Building2, BarChart3, PlusSquare, LogOut, Shield, Settings, ArrowLeft, Tag } from "lucide-react";
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
 import { useAuth } from "@/lib/auth-context";
+import logoFull from "@/assets/logo-gym-hub.png.asset.json";
+import logoIcon from "@/assets/logo-gym-hub-2.png.asset.json";
 
 const items = [
   { title: "Painel", url: "/master/painel", icon: BarChart3 },
@@ -17,15 +19,11 @@ export function SidebarMaster() {
   const navigate = useNavigate();
   return (
     <Sidebar collapsible="icon">
-      <SidebarHeader>
-        <div className="flex items-center gap-2 px-2 py-1">
-          <div className="flex h-8 w-8 items-center justify-center rounded-md bg-red-700">
-            <Shield className="h-4 w-4 text-white" />
-          </div>
-          <div className="flex flex-col group-data-[collapsible=icon]:hidden">
-            <span className="text-sm font-semibold">Master</span>
-            <span className="text-xs text-sidebar-foreground/60">Super admin</span>
-          </div>
+      <SidebarHeader className="bg-[#151310]">
+        <div className="flex flex-col gap-1 px-2 py-2 group-data-[collapsible=icon]:px-0 group-data-[collapsible=icon]:items-center">
+          <img src={logoFull.url} alt="Gym Hub" className="h-8 w-auto object-contain object-left group-data-[collapsible=icon]:hidden" />
+          <img src={logoIcon.url} alt="Gym Hub" className="hidden h-8 w-8 rounded-md group-data-[collapsible=icon]:block" />
+          <span className="text-xs text-white/60 group-data-[collapsible=icon]:hidden">Master · Super admin</span>
         </div>
       </SidebarHeader>
       <SidebarContent>

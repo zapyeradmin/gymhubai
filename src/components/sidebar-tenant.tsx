@@ -4,6 +4,8 @@ import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupConte
 import { useAuth } from "@/lib/auth-context";
 import { useTenant } from "@/lib/tenant-context";
 import { canAccess, featureFromPath } from "@/lib/system-plans";
+import logoFull from "@/assets/logo-gym-hub.png.asset.json";
+import logoIcon from "@/assets/logo-gym-hub-2.png.asset.json";
 
 const groups = [
   { label: "Principal", items: [
@@ -34,14 +36,10 @@ export function SidebarTenant() {
   return (
     <Sidebar collapsible="icon" className="[&_[data-sidebar=sidebar]]:bg-[#151310] [&_[data-sidebar=sidebar]]:text-white">
       <SidebarHeader className="bg-[#151310] border-b border-white/5">
-        <div className="flex items-center gap-2 px-2 py-2">
-          <div className="flex h-9 w-9 items-center justify-center rounded-md bg-[#D97634] shadow-lg shadow-[#D97634]/30">
-            <Dumbbell className="h-5 w-5 text-white" />
-          </div>
-          <div className="flex flex-col group-data-[collapsible=icon]:hidden">
-            <span className="text-sm font-bold text-white">GymBoss AI</span>
-            <span className="truncate text-xs text-white/50">{tenant?.academy?.name ?? "—"}</span>
-          </div>
+        <div className="flex flex-col gap-1 px-2 py-2 group-data-[collapsible=icon]:px-0 group-data-[collapsible=icon]:items-center">
+          <img src={logoFull.url} alt="Gym Hub" className="h-8 w-auto object-contain object-left group-data-[collapsible=icon]:hidden" />
+          <img src={logoIcon.url} alt="Gym Hub" className="hidden h-8 w-8 rounded-md group-data-[collapsible=icon]:block" />
+          <span className="truncate text-xs text-white/50 group-data-[collapsible=icon]:hidden">{tenant?.academy?.name ?? "—"}</span>
         </div>
       </SidebarHeader>
       <SidebarContent className="bg-[#151310]">
