@@ -12,6 +12,7 @@ import { toast } from "sonner";
 import { fmtBRL, fmtDate } from "@/lib/format";
 import { useQuery } from "@tanstack/react-query";
 import { BookingLinkCard } from "@/components/booking-link-card";
+import { CompanyForm } from "@/components/company-form";
 
 export const Route = createFileRoute("/app/configuracoes")({ component: Config });
 
