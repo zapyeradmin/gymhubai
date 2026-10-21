@@ -22,6 +22,13 @@
       "when": 1792555687916,
       "tag": "0002_system_plans",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1792556396647,
+      "tag": "0003_team_plan_limit",
+      "breakpoints": true
     }
   ]
 }

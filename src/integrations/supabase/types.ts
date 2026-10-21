@@ -635,6 +635,7 @@ export type Database = {
           duracao: Database["public"]["Enums"]["plan_duration"]
           id: string
           max_alunos_ativos: number
+          max_equipe_ativos: number
           nome: string
           permissoes: string[]
           updated_at: string
@@ -648,6 +649,7 @@ export type Database = {
           duracao?: Database["public"]["Enums"]["plan_duration"]
           id?: string
           max_alunos_ativos?: number
+          max_equipe_ativos?: number
           nome: string
           permissoes?: string[]
           updated_at?: string
@@ -661,6 +663,7 @@ export type Database = {
           duracao?: Database["public"]["Enums"]["plan_duration"]
           id?: string
           max_alunos_ativos?: number
+          max_equipe_ativos?: number
           nome?: string
           permissoes?: string[]
           updated_at?: string
