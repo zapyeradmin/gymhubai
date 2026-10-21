@@ -17,6 +17,7 @@ export const Route = createFileRoute("/app/dashboard")({ component: Dashboard })
 function Dashboard() {
   const { tenant } = useTenant();
   const aid = tenant?.academyId;
+  const today = format(new Date(), "yyyy-MM-dd");
   const dow = new Date().getDay();
   const weekAgo = format(subDays(new Date(), 7), "yyyy-MM-dd");
   const monthStart = format(startOfMonth(new Date()), "yyyy-MM-dd");
@@ -35,6 +36,9 @@ function Dashboard() {
         supabase.from("student").select("plan_name").eq("academy_id", aid!),
         supabase.from("student").select("id", { count: "exact", head: true }).eq("academy_id", aid!).gte("created_at", monthStart),
         supabase.from("student").select("id", { count: "exact", head: true }).eq("academy_id", aid!).eq("payment_status", "atrasado"),
+        supabase.from("schedule").select("id,name,instructor_name,start_time,end_time").eq("academy_id", aid!).eq("active", true).eq("day_of_week", dow).order("start_time"),
+        supabase.from("student").select("created_at").eq("academy_id", aid!),
+        supabase.from("checkin").select("id", { count: "exact", head: true }).eq("academy_id", aid!).gte("date", format(subDays(new Date(), 30), "yyyy-MM-dd")),
       ]);
       const receita = (financial.data ?? []).filter(f => f.type === "receita" && f.status === "pago").reduce((s, f) => s + Number(f.amount), 0);
       const byDay: Record<string, number> = {};
@@ -48,17 +52,25 @@ function Dashboard() {
       const planMap: Record<string, number> = {};
       (plans.data ?? []).forEach((s) => { planMap[s.plan_name ?? "Sem plano"] = (planMap[s.plan_name ?? "Sem plano"] ?? 0) + 1; });
       const planChart = Object.entries(planMap).map(([plan, count]) => ({ plan, count }));
+      const aulas = (schedule.data ?? []) as { id: string; name: string; instructor_name: string | null; start_time: string; end_time: string }[];
+      const created = (allStudents.data ?? []).map(s => new Date(s.created_at).getTime());
+      const evol = Array.from({ length: 12 }, (_, i) => {
+        const monthsAgo = 11 - i;
+        const m = new Date(); m.setDate(1); m.setMonth(m.getMonth() - monthsAgo);
+        const end = new Date(m.getFullYear(), m.getMonth() + 1, 1).getTime();
+        return { month: format(m, "MMM"), alunos: created.filter(t => t <= end).length };
+      });
+      const freq = (ck30.count ?? 0) / Math.max(students.count ?? 0, 1);
       return {
         students: students.count ?? 0, todays: todays.count ?? 0, weeks: weeks.count ?? 0,
         receita, chart, hourChart, planChart,
         newStudents: newStudents.count ?? 0, overdue: overdue.count ?? 0,
+        aulas, evol, freq,
       };
     },
   });
 
-  const aulasHoje = demoAulasHoje();
   const ai = demoAIOpportunities.slice(0, 3);
-  const evol = demoAlunosEvolution12m();
   const { data: slugRow } = useQuery({
     queryKey: ["academy-slug", aid],
     enabled: !!aid,
@@ -89,7 +101,7 @@ function Dashboard() {
             {!!data?.overdue && <div className="text-xs text-red-600 mt-1">Cobrar inadimplentes</div>}
           </CardContent>
         </Card>
-        <KpiCard label="Taxa ocupação aulas" value="72%" icon={TrendingUp} hint="Média da semana" />
+        <KpiCard label="Frequência média" value={data ? `${data.freq.toFixed(1)}/mês` : "—"} icon={TrendingUp} hint="Check-ins por aluno (30 dias)" />
         <Card className="border-[#D97634]/30 bg-[#D97634]/5">
           <CardContent className="p-5">
             <div className="flex items-center justify-between">
