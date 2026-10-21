@@ -21,22 +21,32 @@ export type Database = {
           cnpj: string | null
           cor_primaria: string | null
           created_at: string
+          documento: string | null
+          documento_tipo: string | null
           email: string | null
           endereco: Json | null
           id: string
+          inscricao_estadual: string | null
+          inscricao_municipal: string | null
+          instagram: string | null
           logo_url: string | null
           name: string
+          owner_cpf: string | null
           owner_email: string | null
           owner_nome: string | null
           owner_telefone: string | null
           plano: Database["public"]["Enums"]["academy_plan"]
+          razao_social: string | null
+          site: string | null
           slug: string | null
           status: Database["public"]["Enums"]["academy_status"]
           telefone: string | null
+          tipo_empresa: Database["public"]["Enums"]["business_type"]
           trial_ate: string | null
           ultimo_acesso: string | null
           updated_at: string
           valor_mensal: number | null
+          whatsapp: string | null
         }
         Insert: {
           business_hours?: Json | null
@@ -44,22 +54,32 @@ export type Database = {
           cnpj?: string | null
           cor_primaria?: string | null
           created_at?: string
+          documento?: string | null
+          documento_tipo?: string | null
           email?: string | null
           endereco?: Json | null
           id?: string
+          inscricao_estadual?: string | null
+          inscricao_municipal?: string | null
+          instagram?: string | null
           logo_url?: string | null
           name: string
+          owner_cpf?: string | null
           owner_email?: string | null
           owner_nome?: string | null
           owner_telefone?: string | null
           plano?: Database["public"]["Enums"]["academy_plan"]
+          razao_social?: string | null
+          site?: string | null
           slug?: string | null
           status?: Database["public"]["Enums"]["academy_status"]
           telefone?: string | null
+          tipo_empresa?: Database["public"]["Enums"]["business_type"]
           trial_ate?: string | null
           ultimo_acesso?: string | null
           updated_at?: string
           valor_mensal?: number | null
+          whatsapp?: string | null
         }
         Update: {
           business_hours?: Json | null
@@ -67,24 +87,78 @@ export type Database = {
           cnpj?: string | null
           cor_primaria?: string | null
           created_at?: string
+          documento?: string | null
+          documento_tipo?: string | null
           email?: string | null
           endereco?: Json | null
           id?: string
+          inscricao_estadual?: string | null
+          inscricao_municipal?: string | null
+          instagram?: string | null
           logo_url?: string | null
           name?: string
+          owner_cpf?: string | null
           owner_email?: string | null
           owner_nome?: string | null
           owner_telefone?: string | null
           plano?: Database["public"]["Enums"]["academy_plan"]
+          razao_social?: string | null
+          site?: string | null
           slug?: string | null
           status?: Database["public"]["Enums"]["academy_status"]
           telefone?: string | null
+          tipo_empresa?: Database["public"]["Enums"]["business_type"]
           trial_ate?: string | null
           ultimo_acesso?: string | null
           updated_at?: string
           valor_mensal?: number | null
+          whatsapp?: string | null
         }
         Relationships: []
+      }
+      academy_technical_responsible: {
+        Row: {
+          academy_id: string
+          conselho: string
+          created_at: string
+          id: string
+          nome: string
+          numero_registro: string
+          principal: boolean
+          uf: string | null
+          updated_at: string
+        }
+        Insert: {
+          academy_id: string
+          conselho?: string
+          created_at?: string
+          id?: string
+          nome: string
+          numero_registro: string
+          principal?: boolean
+          uf?: string | null
+          updated_at?: string
+        }
+        Update: {
+          academy_id?: string
+          conselho?: string
+          created_at?: string
+          id?: string
+          nome?: string
+          numero_registro?: string
+          principal?: boolean
+          uf?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "academy_technical_responsible_academy_id_fkey"
+            columns: ["academy_id"]
+            isOneToOne: false
+            referencedRelation: "academy"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       academy_user: {
         Row: {
@@ -625,22 +699,32 @@ export type Database = {
           cnpj: string | null
           cor_primaria: string | null
           created_at: string
+          documento: string | null
+          documento_tipo: string | null
           email: string | null
           endereco: Json | null
           id: string
+          inscricao_estadual: string | null
+          inscricao_municipal: string | null
+          instagram: string | null
           logo_url: string | null
           name: string
+          owner_cpf: string | null
           owner_email: string | null
           owner_nome: string | null
           owner_telefone: string | null
           plano: Database["public"]["Enums"]["academy_plan"]
+          razao_social: string | null
+          site: string | null
           slug: string | null
           status: Database["public"]["Enums"]["academy_status"]
           telefone: string | null
+          tipo_empresa: Database["public"]["Enums"]["business_type"]
           trial_ate: string | null
           ultimo_acesso: string | null
           updated_at: string
           valor_mensal: number | null
+          whatsapp: string | null
         }
         SetofOptions: {
           from: "*"
@@ -677,6 +761,13 @@ export type Database = {
         | "recepcao"
         | "personal"
         | "demo"
+      business_type:
+        | "academia"
+        | "estudio_personal"
+        | "estudio_funcional"
+        | "estudio_pilates"
+        | "artes_marciais"
+        | "box_crossfit"
       checkin_source: "catraca" | "manual" | "app"
       class_modality:
         | "Musculacao"
@@ -831,6 +922,14 @@ export const Constants = {
         "recepcao",
         "personal",
         "demo",
+      ],
+      business_type: [
+        "academia",
+        "estudio_personal",
+        "estudio_funcional",
+        "estudio_pilates",
+        "artes_marciais",
+        "box_crossfit",
       ],
       checkin_source: ["catraca", "manual", "app"],
       class_modality: [
