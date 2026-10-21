@@ -29,17 +29,10 @@ function Config() {
     },
   });
 
-  void name; void setName;
-  const [newName, setNewName] = useState("");
-  const [creating, setCreating] = useState(false);
-  const createCompany = async () => {
-    if (newName.trim().length < 2) return toast.error("Informe o nome da empresa");
-    setCreating(true);
-    const { error } = await supabase.rpc("create_academy_with_owner", { p_name: newName.trim(), p_telefone: "", p_email: "", p_cor_primaria: "" });
-    setCreating(false);
-    if (error) return toast.error(error.message);
-    toast.success("Empresa criada! Complete o cadastro abaixo.");
-    await refetch();
+  const save = async () => {
+    if (!tenant?.academyId) return;
+    const { error } = await supabase.from("academy").update({ name }).eq("id", tenant.academyId);
+    if (error) toast.error(error.message); else { toast.success("Salvo"); refetch(); }
   };
 
 
@@ -57,14 +50,7 @@ function Config() {
         <TabsContent value="academia">
           {tenant?.academyId
             ? <CompanyForm academyId={tenant.academyId} canEdit={tenant.role === "admin" || tenant.isSuperAdmin} onSaved={() => refetch()} />
-            : <Card><CardContent className="p-6 space-y-4 max-w-lg">
-                <div>
-                  <div className="font-semibold">Cadastrar Empresa</div>
-                  <p className="text-sm text-muted-foreground">Você ainda não tem uma empresa vinculada. Informe o nome para começar; em seguida o formulário completo será aberto.</p>
-                </div>
-                <div><Label>Nome fantasia</Label><Input value={newName} onChange={(e) => setNewName(e.target.value)} placeholder="Ex.: Studio Movimento" /></div>
-                <Button onClick={createCompany} disabled={creating}>{creating ? "Criando…" : "Cadastrar Empresa"}</Button>
-              </CardContent></Card>}
+            : <Card><CardContent className="p-6 text-sm text-muted-foreground">Nenhuma empresa vinculada.</CardContent></Card>}
         </TabsContent>
         <TabsContent value="equipe"><Card><CardContent className="p-6 text-sm text-muted-foreground">Gerencie membros em <a href="/app/equipe" className="text-primary underline">/app/equipe</a>.</CardContent></Card></TabsContent>
         <TabsContent value="aparencia"><Card><CardContent className="p-6"><Label>Cor primária</Label><div className="text-sm text-muted-foreground mt-2">{a?.cor_primaria}</div></CardContent></Card></TabsContent>
