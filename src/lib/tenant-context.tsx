@@ -16,6 +16,7 @@ export type TenantInfo = {
     trial_ate: string | null;
     plano: string;
     valor_mensal: number | null;
+    system_plan: { nome: string; permissoes: string[]; max_alunos_ativos: number } | null;
   } | null;
   isSuperAdmin: boolean;
 };
@@ -51,7 +52,7 @@ export function useTenant() {
       if (tenantRole?.academy_id) {
         const { data } = await supabase
           .from("academy")
-          .select("id, name, cor_primaria, status, trial_ate, plano, valor_mensal")
+          .select("id, name, cor_primaria, status, trial_ate, plano, valor_mensal, system_plan(nome, permissoes, max_alunos_ativos)")
           .eq("id", tenantRole.academy_id)
           .maybeSingle();
         academy = data as TenantInfo["academy"];
