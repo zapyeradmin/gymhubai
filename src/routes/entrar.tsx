@@ -34,9 +34,10 @@ function Entrar() {
 
   const onSignup = async (e: React.FormEvent) => {
     e.preventDefault(); setBusy(true);
-    const { error } = await signUp(email, password);
+    const { error, confirmed } = await signUp(email, password);
     setBusy(false);
-    if (error) toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
+    if (confirmed) navigate({ to: "/app/dashboard", replace: true });
     else toast.success("Confirme seu email para entrar.");
   };
 

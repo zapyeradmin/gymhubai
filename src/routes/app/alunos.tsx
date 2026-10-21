@@ -48,7 +48,17 @@ function Alunos() {
 
   const create = useMutation({
     mutationFn: async () => {
-      const { error } = await supabase.from("student").insert({ ...form, academy_id: aid! });
+      const payload = {
+        name: form.name.trim(),
+        email: form.email.trim() || null,
+        phone: form.phone.trim() || null,
+        cpf: form.cpf.trim() || null,
+        plan_name: form.plan_name.trim() || null,
+        birth_date: form.birth_date.trim() || null,
+        emergency_contact: form.emergency_contact.trim() || null,
+        medical_notes: form.medical_notes.trim() || null,
+      };
+      const { error } = await supabase.from("student").insert({ ...payload, academy_id: aid! });
       if (error) throw error;
     },
     onSuccess: () => { toast.success("Aluno cadastrado"); setOpen(false); setForm({ name: "", email: "", phone: "", cpf: "", plan_name: "", birth_date: "", emergency_contact: "", medical_notes: "" }); qc.invalidateQueries({ queryKey: ["students"] }); },

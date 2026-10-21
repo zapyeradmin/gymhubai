@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useTenant } from "@/lib/tenant-context";
-import { useAuth } from "@/lib/auth-context";
 import { supabase } from "@/integrations/supabase/client";
 import { PageHeader } from "@/components/page-header";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
@@ -18,7 +17,6 @@ export const Route = createFileRoute("/app/configuracoes")({ component: Config }
 
 function Config() {
   const { tenant, refetch } = useTenant();
-  const { user } = useAuth();
   const a = tenant?.academy;
   const [name, setName] = useState(a?.name ?? "");
   const { data: slugRow } = useQuery({
@@ -36,11 +34,6 @@ function Config() {
     if (error) toast.error(error.message); else { toast.success("Salvo"); refetch(); }
   };
 
-  const tornarSuperAdmin = async () => {
-    if (!user) return;
-    const { error } = await supabase.from("user_roles").insert({ user_id: user.id, role: "super_admin" });
-    if (error) toast.error(error.message); else { toast.success("Você agora é super admin. Recarregue."); refetch(); }
-  };
 
   return (
     <div>
@@ -57,8 +50,6 @@ function Config() {
           <Card><CardContent className="p-6 space-y-3 max-w-lg">
             <div><Label>Nome</Label><Input value={name} onChange={(e)=>setName(e.target.value)} /></div>
             <Button onClick={save}>Salvar</Button>
-            <hr className="my-4" />
-            <Button variant="outline" onClick={tornarSuperAdmin}>Tornar-se super admin (dev)</Button>
           </CardContent></Card>
         </TabsContent>
         <TabsContent value="equipe"><Card><CardContent className="p-6 text-sm text-muted-foreground">Gerencie membros em <a href="/app/equipe" className="text-primary underline">/app/equipe</a>.</CardContent></Card></TabsContent>
