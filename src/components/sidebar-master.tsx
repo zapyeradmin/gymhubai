@@ -20,8 +20,8 @@ export function SidebarMaster() {
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader className="bg-[#151310]">
-        <div className="flex flex-col gap-1.5 px-3 py-3 group-data-[collapsible=icon]:px-0 group-data-[collapsible=icon]:items-center group-data-[collapsible=icon]:py-2">
-          <img src={logoFull.url} alt="Gym Hub" className="w-full h-auto object-contain group-data-[collapsible=icon]:hidden" />
+        <div className="flex min-h-[84px] flex-col items-center justify-center gap-1.5 px-3 py-3 group-data-[collapsible=icon]:min-h-0 group-data-[collapsible=icon]:px-0 group-data-[collapsible=icon]:items-center group-data-[collapsible=icon]:py-2">
+          <img src={logoFull.url} alt="Gym Hub" className="w-[78%] h-auto object-contain group-data-[collapsible=icon]:hidden" />
           <img src={logoIcon.url} alt="Gym Hub" className="hidden h-8 w-8 rounded-md group-data-[collapsible=icon]:block" />
           <span className="text-xs text-white/60 group-data-[collapsible=icon]:hidden">Master · Super admin</span>
         </div>
