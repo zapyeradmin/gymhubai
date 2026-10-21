@@ -71,6 +71,7 @@ function Dashboard() {
   });
 
   const ai = demoAIOpportunities.slice(0, 3);
+  const aulas = data?.aulas ?? [];
   const { data: slugRow } = useQuery({
     queryKey: ["academy-slug", aid],
     enabled: !!aid,
@@ -138,7 +139,7 @@ function Dashboard() {
         <Card className="lg:col-span-2"><CardContent className="p-5">
           <h3 className="font-semibold mb-4">Evolução de alunos (12 meses)</h3>
           <div className="h-64"><ResponsiveContainer>
-            <LineChart data={evol}>
+            <LineChart data={data?.evol ?? []}>
               <CartesianGrid strokeDasharray="3 3" opacity={0.3} /><XAxis dataKey="month" /><YAxis allowDecimals={false} /><Tooltip /><Legend />
               <Line type="monotone" dataKey="alunos" stroke="#D97634" strokeWidth={3} dot={{ fill: "#D97634" }} />
             </LineChart>
