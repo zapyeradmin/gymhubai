@@ -40,7 +40,7 @@ export function SidebarTenant() {
           <img src={logoFull.url} alt="Gym Hub" className="w-[78%] h-auto object-contain group-data-[collapsible=icon]:hidden" />
           <img src={logoIcon.url} alt="Gym Hub" className="hidden h-8 w-8 rounded-md group-data-[collapsible=icon]:block" />
         </div>
-        <span className="absolute inset-x-3 bottom-1.5 truncate text-center text-[10px] text-white/45 group-data-[collapsible=icon]:hidden">{tenant?.academy?.name ?? "—"}</span>
+        <span className="absolute inset-x-3 bottom-1.5 truncate text-center text-[10px] text-white/45 group-data-[collapsible=icon]:hidden">{tenant?.academy?.name ?? ""}</span>
       </SidebarHeader>
       <SidebarContent className="bg-[#151310]">
         {groups.map((g) => (
