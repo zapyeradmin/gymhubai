@@ -28,12 +28,21 @@ async function assertSuperAdmin(userId: string) {
 
 const createSchema = z.object({
   nome: z.string().min(2).max(120),
-  slug: z.string().min(2).max(60).regex(/^[a-z0-9-]+$/, "Slug invalido (use a-z, 0-9, -)"),
+  slug: z.string().min(2).max(60).regex(/^[a-z0-9]+(-[a-z0-9]+)*$/, "Slug invalido (use a-z, 0-9, -)"),
   cor_principal: z.string().regex(/^#[0-9a-fA-F]{6}$/).default("#F97316"),
+  tipo_empresa: z.enum(["academia", "estudio_personal", "estudio_funcional", "estudio_pilates", "artes_marciais", "box_crossfit"]),
+  documento: z.string().max(20).optional().default("").refine((v) => {
+    const d = onlyDigits(v);
+    return d.length === 0 || (d.length === 11 && isValidCPF(d)) || (d.length === 14 && isValidCNPJ(d));
+  }, "CPF/CNPJ invalido"),
+  valores: z.array(z.object({
+    valor: z.number().min(0).max(99999),
+    cobranca: z.enum(["mensal", "trimestral", "semestral", "anual"]),
+  })).max(20).default([]),
   telefone: z.string().max(40).optional().default(""),
+  whatsapp_ddi: z.string().regex(/^\d{1,4}$/).default("55"),
   whatsapp: z.string().max(40).optional().default(""),
   email: z.string().email().optional().or(z.literal("")).default(""),
-  cnpj: z.string().max(20).optional().default(""),
   endereco: z.object({
     cep: z.string().max(15).optional().default(""),
     rua: z.string().max(200).optional().default(""),
@@ -42,13 +51,12 @@ const createSchema = z.object({
     cidade: z.string().max(100).optional().default(""),
     uf: z.string().max(2).optional().default(""),
   }),
-  capacidade_max: z.number().int().min(1).max(5000).default(200),
-  mensalidade_basica: z.number().min(0).max(99999).default(89),
   system_plan_id: z.string().uuid({ message: "Selecione um plano" }),
   valor_mensal: z.number().min(0).max(99999).default(197),
-  dia_vencimento: z.number().int().min(1).max(28).default(10),
+  data_vencimento: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional().or(z.literal("")).default(""),
   email_admin: z.string().email(),
   nome_admin: z.string().min(2).max(120),
+  senha_admin: z.string().max(72).refine(isStrongPassword, "Senha fraca: minimo 8 caracteres com maiuscula, minuscula, numero e simbolo"),
 });
 
 export const createAcademiaWithOwner = createServerFn({ method: "POST" })
@@ -62,26 +70,32 @@ export const createAcademiaWithOwner = createServerFn({ method: "POST" })
     if (!plan || !plan.ativo) throw new Error("Plano inexistente ou inativo.");
     const legacy = (["starter", "pro", "premium"] as const).find((p) => p === plan.nome.toLowerCase()) ?? "pro";
 
-    // Check slug uniqueness
     const { data: existing } = await supabaseAdmin
       .from("academy").select("id").eq("slug", data.slug).maybeSingle();
     if (existing) throw new Error(`Slug "${data.slug}" ja esta em uso.`);
 
-    const senha = genPassword(12);
+    const senha = data.senha_admin;
+    const doc = onlyDigits(data.documento);
+    const docTipo = doc.length === 14 ? "cnpj" : doc.length === 11 ? "cpf" : null;
+    const waDigits = onlyDigits(data.whatsapp);
+    const waFull = waDigits ? `+${data.whatsapp_ddi}${waDigits}` : null;
 
-    // Create academy
     const { data: acad, error: acErr } = await supabaseAdmin
       .from("academy")
       .insert({
         name: data.nome,
         slug: data.slug,
         cor_primaria: data.cor_principal,
+        tipo_empresa: data.tipo_empresa,
+        documento_tipo: docTipo,
+        documento: doc || null,
+        cnpj: docTipo === "cnpj" ? doc : null,
         telefone: data.telefone || null,
+        whatsapp: waFull,
         email: data.email || null,
-        cnpj: data.cnpj || null,
         endereco: data.endereco,
-        capacity_per_class: data.capacidade_max,
         valor_mensal: data.valor_mensal,
+        data_vencimento: data.data_vencimento || null,
         plano: legacy,
         system_plan_id: plan.id,
         status: "active",

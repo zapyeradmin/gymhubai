@@ -35,7 +35,7 @@ export function maskCNPJ(v: string) {
 }
 
 export const BUSINESS_TYPES = [
-  { value: "academia", label: "Academia" },
+  { value: "academia", label: "Academia de Musculação" },
   { value: "estudio_personal", label: "Estúdio de Treino Personalizado" },
   { value: "estudio_funcional", label: "Estúdio de Treinamento Funcional" },
   { value: "estudio_pilates", label: "Estúdio de Pilates" },
