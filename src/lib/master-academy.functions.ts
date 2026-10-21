@@ -2,6 +2,8 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
+import { onlyDigits, isValidCPF, isValidCNPJ } from "@/lib/documento";
+import { isStrongPassword, cobrancaLabel, cobrancaMonths } from "@/lib/empresa";
 
 function genPassword(len = 12) {
   const upper = "ABCDEFGHJKLMNPQRSTUVWXYZ";
@@ -101,7 +103,7 @@ export const createAcademiaWithOwner = createServerFn({ method: "POST" })
         status: "active",
         owner_nome: data.nome_admin,
         owner_email: data.email_admin.toLowerCase(),
-        owner_telefone: data.whatsapp || data.telefone || null,
+        owner_telefone: waFull || data.telefone || null,
       })
       .select("id, slug")
       .single();
@@ -134,7 +136,7 @@ export const createAcademiaWithOwner = createServerFn({ method: "POST" })
       nome: data.nome_admin,
       role: "admin",
       ativo: true,
-      must_change_password: true,
+      must_change_password: false,
     });
 
     // user_roles
@@ -143,6 +145,21 @@ export const createAcademiaWithOwner = createServerFn({ method: "POST" })
       role: "admin",
       academy_id: acad.id,
     });
+
+    // Student price plans from "Valores"
+    if (data.valores.length) {
+      const { error: pErr } = await supabaseAdmin.from("plan").insert(
+        data.valores.map((v) => ({
+          academy_id: acad.id,
+          name: `Plano ${cobrancaLabel(v.cobranca)}`,
+          price: v.valor,
+          duration_months: cobrancaMonths(v.cobranca),
+          active: true,
+        })),
+      );
+      if (pErr) throw new Error(`Empresa criada, mas falhou ao salvar valores: ${pErr.message}`);
+    }
+
 
     return {
       academy_id: acad.id,
