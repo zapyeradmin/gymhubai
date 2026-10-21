@@ -55,6 +55,7 @@ function Nova() {
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!f.system_plan_id) { toast.error("Selecione um plano"); return; }
     setBusy(true);
     try {
       const result = await create({ data: f });
