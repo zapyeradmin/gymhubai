@@ -44,7 +44,7 @@ const createSchema = z.object({
   }),
   capacidade_max: z.number().int().min(1).max(5000).default(200),
   mensalidade_basica: z.number().min(0).max(99999).default(89),
-  plano: z.enum(["starter", "pro", "premium"]).default("pro"),
+  system_plan_id: z.string().uuid({ message: "Selecione um plano" }),
   valor_mensal: z.number().min(0).max(99999).default(197),
   dia_vencimento: z.number().int().min(1).max(28).default(10),
   email_admin: z.string().email(),
@@ -56,6 +56,11 @@ export const createAcademiaWithOwner = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) => createSchema.parse(input))
   .handler(async ({ data, context }) => {
     await assertSuperAdmin(context.userId);
+
+    const { data: plan } = await supabaseAdmin
+      .from("system_plan").select("id, nome, ativo").eq("id", data.system_plan_id).maybeSingle();
+    if (!plan || !plan.ativo) throw new Error("Plano inexistente ou inativo.");
+    const legacy = (["starter", "pro", "premium"] as const).find((p) => p === plan.nome.toLowerCase()) ?? "pro";
 
     // Check slug uniqueness
     const { data: existing } = await supabaseAdmin
@@ -77,7 +82,8 @@ export const createAcademiaWithOwner = createServerFn({ method: "POST" })
         endereco: data.endereco,
         capacity_per_class: data.capacidade_max,
         valor_mensal: data.valor_mensal,
-        plano: data.plano,
+        plano: legacy,
+        system_plan_id: plan.id,
         status: "active",
         owner_nome: data.nome_admin,
         owner_email: data.email_admin.toLowerCase(),

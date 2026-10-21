@@ -1,5 +1,7 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 import { useServerFn } from "@tanstack/react-start";
 import { createAcademiaWithOwner } from "@/lib/master-academy.functions";
 import { sendWelcomeEmail } from "@/lib/email-client";
@@ -28,7 +30,7 @@ const initial = {
   telefone: "", whatsapp: "", email: "", cnpj: "",
   endereco: { cep: "", rua: "", numero: "", bairro: "", cidade: "", uf: "" },
   capacidade_max: 200, mensalidade_basica: 89,
-  plano: "pro" as "starter" | "pro" | "premium",
+  system_plan_id: "",
   valor_mensal: 197, dia_vencimento: 10,
   email_admin: "", nome_admin: "",
 };
@@ -39,6 +41,10 @@ function Nova() {
   const [f, setF] = useState(initial);
   const [busy, setBusy] = useState(false);
   const [creds, setCreds] = useState<Credentials | null>(null);
+  const { data: plans } = useQuery({
+    queryKey: ["system-plans-active"],
+    queryFn: async () => (await supabase.from("system_plan").select("id, nome, valor, max_alunos_ativos").eq("ativo", true).order("valor")).data ?? [],
+  });
 
   const update = <K extends keyof typeof f>(k: K, v: (typeof f)[K]) => setF((p) => ({ ...p, [k]: v }));
   const updateEndereco = <K extends keyof typeof f.endereco>(k: K, v: string) =>
@@ -49,6 +55,7 @@ function Nova() {
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!f.system_plan_id) { toast.error("Selecione um plano"); return; }
     setBusy(true);
     try {
       const result = await create({ data: f });
@@ -106,14 +113,15 @@ function Nova() {
         </Section>
 
         <Section icon={<CreditCard className="h-4 w-4" />} title="Plano e cobranca">
+          {plans && plans.length === 0 && (
+            <div className="mb-3 text-sm text-amber-700">Nenhum plano ativo. <Link to="/master/planos" className="underline font-medium">Criar Plano</Link></div>
+          )}
           <div className="grid sm:grid-cols-3 gap-4">
-            <Field label="Plano">
-              <Select value={f.plano} onValueChange={(v: "starter"|"pro"|"premium")=>update("plano", v)}>
-                <SelectTrigger><SelectValue /></SelectTrigger>
+            <Field label="Plano*">
+              <Select value={f.system_plan_id} onValueChange={(v) => { const p = plans?.find((x) => x.id === v); setF((s) => ({ ...s, system_plan_id: v, valor_mensal: p ? Number(p.valor) : s.valor_mensal })); }}>
+                <SelectTrigger><SelectValue placeholder="Selecione o plano" /></SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="starter">Starter</SelectItem>
-                  <SelectItem value="pro">Professional</SelectItem>
-                  <SelectItem value="premium">Enterprise</SelectItem>
+                  {(plans ?? []).map((p) => <SelectItem key={p.id} value={p.id}>{p.nome} — {p.max_alunos_ativos} alunos</SelectItem>)}
                 </SelectContent>
               </Select>
             </Field>

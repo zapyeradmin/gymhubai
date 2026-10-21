@@ -15,6 +15,13 @@
       "when": 1792553106764,
       "tag": "0001_company_profile",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1792555687916,
+      "tag": "0002_system_plans",
+      "breakpoints": true
     }
   ]
 }

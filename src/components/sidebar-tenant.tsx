@@ -3,6 +3,7 @@ import { LayoutDashboard, Users, Tag, CalendarDays, ScanLine, Wallet, BarChart3,
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
 import { useAuth } from "@/lib/auth-context";
 import { useTenant } from "@/lib/tenant-context";
+import { canAccess, featureFromPath } from "@/lib/system-plans";
 
 const groups = [
   { label: "Principal", items: [
@@ -49,7 +50,7 @@ export function SidebarTenant() {
             <SidebarGroupLabel className="text-white/40 text-[10px] uppercase tracking-wider px-3">{g.label}</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
-                {g.items.map((item) => {
+                {g.items.filter((item) => canAccess(tenant?.academy?.system_plan?.permissoes, featureFromPath(item.url), tenant?.isSuperAdmin)).map((item) => {
                   const active = path === item.url;
                   return (
                     <SidebarMenuItem key={item.url}>

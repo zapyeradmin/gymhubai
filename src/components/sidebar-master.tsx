@@ -1,5 +1,5 @@
 import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
-import { Building2, BarChart3, PlusSquare, LogOut, Shield, Settings, ArrowLeft } from "lucide-react";
+import { Building2, BarChart3, PlusSquare, LogOut, Shield, Settings, ArrowLeft, Tag } from "lucide-react";
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
 import { useAuth } from "@/lib/auth-context";
 
@@ -7,6 +7,7 @@ const items = [
   { title: "Painel", url: "/master/painel", icon: BarChart3 },
   { title: "Academias", url: "/master/listaAcademias", icon: Building2 },
   { title: "Nova academia", url: "/master/novaAcademia", icon: PlusSquare },
+  { title: "Planos", url: "/master/planos", icon: Tag },
   { title: "Configuracoes do sistema", url: "/master/configuracoes", icon: Settings },
 ];
 

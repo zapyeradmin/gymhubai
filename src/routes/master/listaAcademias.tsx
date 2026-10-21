@@ -24,7 +24,7 @@ function Lista() {
   const { data: rows, refetch } = useQuery({
     queryKey: ["master-academies"],
     queryFn: async () => {
-      const { data } = await supabase.from("academy").select("*").order("created_at", { ascending: false });
+      const { data } = await supabase.from("academy").select("*, system_plan(nome)").order("created_at", { ascending: false });
       return data ?? [];
     },
   });
@@ -75,7 +75,7 @@ function Lista() {
               {(rows ?? []).map((a: any) => (
                 <TableRow key={a.id}>
                   <TableCell className="font-medium">{a.name}</TableCell>
-                  <TableCell><Badge variant="outline">{a.plano}</Badge></TableCell>
+                  <TableCell><Badge variant="outline">{a.system_plan?.nome ?? "Sem plano"}</Badge></TableCell>
                   <TableCell>
                     <Badge variant={a.status === "active" ? "default" : a.status === "trial" ? "secondary" : "destructive"}>{a.status}</Badge>
                   </TableCell>

@@ -45,6 +45,7 @@ import { Route as MasterConfiguracoesRouteImport } from './routes/master/configu
 import { Route as MasterListaAcademiasRouteImport } from './routes/master/listaAcademias'
 import { Route as MasterNovaAcademiaRouteImport } from './routes/master/novaAcademia'
 import { Route as MasterPainelRouteImport } from './routes/master/painel'
+import { Route as MasterPlanosRouteImport } from './routes/master/planos'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -226,6 +227,11 @@ const MasterPainelRoute = MasterPainelRouteImport.update({
   path: '/painel',
   getParentRoute: () => MasterRoute,
 } as any)
+const MasterPlanosRoute = MasterPlanosRouteImport.update({
+  id: '/planos',
+  path: '/planos',
+  getParentRoute: () => MasterRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -264,6 +270,7 @@ export interface FileRoutesByFullPath {
   '/master/listaAcademias': typeof MasterListaAcademiasRoute
   '/master/novaAcademia': typeof MasterNovaAcademiaRoute
   '/master/painel': typeof MasterPainelRoute
+  '/master/planos': typeof MasterPlanosRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -302,6 +309,7 @@ export interface FileRoutesByTo {
   '/master/listaAcademias': typeof MasterListaAcademiasRoute
   '/master/novaAcademia': typeof MasterNovaAcademiaRoute
   '/master/painel': typeof MasterPainelRoute
+  '/master/planos': typeof MasterPlanosRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -341,6 +349,7 @@ export interface FileRoutesById {
   '/master/listaAcademias': typeof MasterListaAcademiasRoute
   '/master/novaAcademia': typeof MasterNovaAcademiaRoute
   '/master/painel': typeof MasterPainelRoute
+  '/master/planos': typeof MasterPlanosRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -381,6 +390,7 @@ export interface FileRouteTypes {
     | '/master/listaAcademias'
     | '/master/novaAcademia'
     | '/master/painel'
+    | '/master/planos'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -419,6 +429,7 @@ export interface FileRouteTypes {
     | '/master/listaAcademias'
     | '/master/novaAcademia'
     | '/master/painel'
+    | '/master/planos'
   id:
     | '__root__'
     | '/'
@@ -457,6 +468,7 @@ export interface FileRouteTypes {
     | '/master/listaAcademias'
     | '/master/novaAcademia'
     | '/master/painel'
+    | '/master/planos'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -725,6 +737,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MasterPainelRouteImport
       parentRoute: typeof MasterRoute
     }
+    '/master/planos': {
+      id: '/master/planos'
+      path: '/planos'
+      fullPath: '/master/planos'
+      preLoaderRoute: typeof MasterPlanosRouteImport
+      parentRoute: typeof MasterRoute
+    }
   }
 }
 
@@ -795,6 +814,7 @@ interface MasterRouteChildren {
   MasterListaAcademiasRoute: typeof MasterListaAcademiasRoute
   MasterNovaAcademiaRoute: typeof MasterNovaAcademiaRoute
   MasterPainelRoute: typeof MasterPainelRoute
+  MasterPlanosRoute: typeof MasterPlanosRoute
 }
 
 const MasterRouteChildren: MasterRouteChildren = {
@@ -802,6 +822,7 @@ const MasterRouteChildren: MasterRouteChildren = {
   MasterListaAcademiasRoute: MasterListaAcademiasRoute,
   MasterNovaAcademiaRoute: MasterNovaAcademiaRoute,
   MasterPainelRoute: MasterPainelRoute,
+  MasterPlanosRoute: MasterPlanosRoute,
 }
 
 const MasterRouteWithChildren =
