@@ -170,6 +170,102 @@ export const createAcademiaWithOwner = createServerFn({ method: "POST" })
     };
   });
 
+const updateSchema = createSchema
+  .pick({ nome: true, slug: true, cor_principal: true, tipo_empresa: true, documento: true, telefone: true, whatsapp_ddi: true, whatsapp: true, email: true, endereco: true, system_plan_id: true, valor_mensal: true, data_vencimento: true })
+  .extend({ academy_id: z.string().uuid() });
+
+export const updateAcademia = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input: unknown) => updateSchema.parse(input))
+  .handler(async ({ data, context }) => {
+    await assertSuperAdmin(context.userId);
+    const { data: dup } = await supabaseAdmin.from("academy").select("id").eq("slug", data.slug).neq("id", data.academy_id).maybeSingle();
+    if (dup) throw new Error(`Slug "${data.slug}" ja esta em uso.`);
+    const { data: plan } = await supabaseAdmin.from("system_plan").select("id, nome").eq("id", data.system_plan_id).maybeSingle();
+    if (!plan) throw new Error("Plano inexistente.");
+    const doc = onlyDigits(data.documento);
+    const docTipo = doc.length === 14 ? "cnpj" : doc.length === 11 ? "cpf" : null;
+    const waDigits = onlyDigits(data.whatsapp);
+    const { error } = await supabaseAdmin.from("academy").update({
+      name: data.nome,
+      slug: data.slug,
+      cor_primaria: data.cor_principal,
+      tipo_empresa: data.tipo_empresa,
+      documento_tipo: docTipo,
+      documento: doc || null,
+      cnpj: docTipo === "cnpj" ? doc : null,
+      telefone: data.telefone || null,
+      whatsapp: waDigits ? `+${data.whatsapp_ddi}${waDigits}` : null,
+      email: data.email || null,
+      endereco: data.endereco,
+      system_plan_id: plan.id,
+      valor_mensal: data.valor_mensal,
+      data_vencimento: data.data_vencimento || null,
+    }).eq("id", data.academy_id);
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
+
+export const setAcademiaStatus = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input: unknown) => z.object({ academy_id: z.string().uuid(), ativa: z.boolean() }).parse(input))
+  .handler(async ({ data, context }) => {
+    await assertSuperAdmin(context.userId);
+    const { error } = await supabaseAdmin.from("academy").update({ status: data.ativa ? "active" : "blocked" }).eq("id", data.academy_id);
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
+
+export const alterarSenhaAdmin = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input: unknown) => z.object({
+    academy_id: z.string().uuid(),
+    senha: z.string().max(72).optional().default("").refine((s) => s === "" || isStrongPassword(s), "Senha fraca"),
+  }).parse(input))
+  .handler(async ({ data, context }) => {
+    await assertSuperAdmin(context.userId);
+    const { data: au } = await supabaseAdmin.from("academy_user").select("email, nome")
+      .eq("academy_id", data.academy_id).eq("role", "admin").limit(1).maybeSingle();
+    if (!au) throw new Error("Nenhum admin nesta empresa.");
+    const list = await supabaseAdmin.auth.admin.listUsers({ perPage: 1000 });
+    const found = list.data.users.find((u) => (u.email ?? "").toLowerCase() === au.email.toLowerCase());
+    if (!found) throw new Error("Usuario admin nao encontrado.");
+    const senha = data.senha || genPassword(12);
+    const { error } = await supabaseAdmin.auth.admin.updateUserById(found.id, { password: senha });
+    if (error) throw new Error(error.message);
+    await supabaseAdmin.from("academy_user").update({ must_change_password: !data.senha })
+      .eq("academy_id", data.academy_id).eq("email", au.email);
+    return { email: au.email, senha, nome_admin: au.nome ?? "" };
+  });
+
+export const excluirAcademia = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input: unknown) => z.object({ academy_id: z.string().uuid() }).parse(input))
+  .handler(async ({ data, context }) => {
+    await assertSuperAdmin(context.userId);
+    const id = data.academy_id;
+    const { data: users } = await supabaseAdmin.from("academy_user").select("email").eq("academy_id", id);
+    const { data: roles } = await supabaseAdmin.from("user_roles").select("user_id").eq("academy_id", id);
+    for (const t of ["checkin", "financial", "lead", "student", "schedule", "plan", "team_member", "academy_technical_responsible", "academy_user", "user_roles"] as const) {
+      const { error } = await supabaseAdmin.from(t).delete().eq("academy_id", id);
+      if (error) throw new Error(`Falha ao excluir ${t}: ${error.message}`);
+    }
+    const { error } = await supabaseAdmin.from("academy").delete().eq("id", id);
+    if (error) throw new Error(error.message);
+    // Remove orphan admin logins (never super admins / users linked elsewhere)
+    for (const uid of new Set((roles ?? []).map((r) => r.user_id))) {
+      if (uid === context.userId) continue;
+      const { count } = await supabaseAdmin.from("user_roles").select("id", { count: "exact", head: true }).eq("user_id", uid);
+      if ((count ?? 0) > 0) continue;
+      const { data: u } = await supabaseAdmin.auth.admin.getUserById(uid);
+      const email = (u.user?.email ?? "").toLowerCase();
+      if (!(users ?? []).some((x) => x.email.toLowerCase() === email)) continue;
+      const { count: other } = await supabaseAdmin.from("academy_user").select("id", { count: "exact", head: true }).eq("email", email);
+      if ((other ?? 0) === 0) await supabaseAdmin.auth.admin.deleteUser(uid);
+    }
+    return { ok: true };
+  });
+
 export const resetarSenhaAdmin = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((input: unknown) => z.object({ academy_id: z.string().uuid() }).parse(input))

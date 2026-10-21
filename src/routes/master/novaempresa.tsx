@@ -251,7 +251,7 @@ function Nova() {
           <Button type="submit" disabled={busy} size="lg">
             {busy ? "Criando…" : "Criar Empresa + Admin"}
           </Button>
-          <Button type="button" variant="outline" onClick={() => navigate({ to: "/master/listaAcademias" })}>Cancelar</Button>
+          <Button type="button" variant="outline" onClick={() => navigate({ to: "/master/listaempresa" })}>Cancelar</Button>
         </div>
       </form>
 
@@ -260,7 +260,7 @@ function Nova() {
         nome_admin={f.nome_admin}
         nome_academia={f.nome}
         whatsapp={waDigits ? `${f.whatsapp_ddi}${waDigits}` : ""}
-        onClose={() => { setCreds(null); navigate({ to: "/master/listaAcademias" }); }}
+        onClose={() => { setCreds(null); navigate({ to: "/master/listaempresa" }); }}
       />
     </div>
   );

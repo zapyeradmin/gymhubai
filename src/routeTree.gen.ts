@@ -43,6 +43,7 @@ import { Route as DemoPlanosRouteImport } from './routes/demo/planos'
 import { Route as DemoRelatoriosRouteImport } from './routes/demo/relatorios'
 import { Route as MasterConfiguracoesRouteImport } from './routes/master/configuracoes'
 import { Route as MasterListaAcademiasRouteImport } from './routes/master/listaAcademias'
+import { Route as MasterListaempresaRouteImport } from './routes/master/listaempresa'
 import { Route as MasterNovaAcademiaRouteImport } from './routes/master/novaAcademia'
 import { Route as MasterNovaempresaRouteImport } from './routes/master/novaempresa'
 import { Route as MasterPainelRouteImport } from './routes/master/painel'
@@ -218,6 +219,11 @@ const MasterListaAcademiasRoute = MasterListaAcademiasRouteImport.update({
   path: '/listaAcademias',
   getParentRoute: () => MasterRoute,
 } as any)
+const MasterListaempresaRoute = MasterListaempresaRouteImport.update({
+  id: '/listaempresa',
+  path: '/listaempresa',
+  getParentRoute: () => MasterRoute,
+} as any)
 const MasterNovaAcademiaRoute = MasterNovaAcademiaRouteImport.update({
   id: '/novaAcademia',
   path: '/novaAcademia',
@@ -274,6 +280,7 @@ export interface FileRoutesByFullPath {
   '/demo/relatorios': typeof DemoRelatoriosRoute
   '/master/configuracoes': typeof MasterConfiguracoesRoute
   '/master/listaAcademias': typeof MasterListaAcademiasRoute
+  '/master/listaempresa': typeof MasterListaempresaRoute
   '/master/novaAcademia': typeof MasterNovaAcademiaRoute
   '/master/novaempresa': typeof MasterNovaempresaRoute
   '/master/painel': typeof MasterPainelRoute
@@ -314,6 +321,7 @@ export interface FileRoutesByTo {
   '/demo/relatorios': typeof DemoRelatoriosRoute
   '/master/configuracoes': typeof MasterConfiguracoesRoute
   '/master/listaAcademias': typeof MasterListaAcademiasRoute
+  '/master/listaempresa': typeof MasterListaempresaRoute
   '/master/novaAcademia': typeof MasterNovaAcademiaRoute
   '/master/novaempresa': typeof MasterNovaempresaRoute
   '/master/painel': typeof MasterPainelRoute
@@ -355,6 +363,7 @@ export interface FileRoutesById {
   '/demo/relatorios': typeof DemoRelatoriosRoute
   '/master/configuracoes': typeof MasterConfiguracoesRoute
   '/master/listaAcademias': typeof MasterListaAcademiasRoute
+  '/master/listaempresa': typeof MasterListaempresaRoute
   '/master/novaAcademia': typeof MasterNovaAcademiaRoute
   '/master/novaempresa': typeof MasterNovaempresaRoute
   '/master/painel': typeof MasterPainelRoute
@@ -397,6 +406,7 @@ export interface FileRouteTypes {
     | '/demo/relatorios'
     | '/master/configuracoes'
     | '/master/listaAcademias'
+    | '/master/listaempresa'
     | '/master/novaAcademia'
     | '/master/novaempresa'
     | '/master/painel'
@@ -437,6 +447,7 @@ export interface FileRouteTypes {
     | '/demo/relatorios'
     | '/master/configuracoes'
     | '/master/listaAcademias'
+    | '/master/listaempresa'
     | '/master/novaAcademia'
     | '/master/novaempresa'
     | '/master/painel'
@@ -477,6 +488,7 @@ export interface FileRouteTypes {
     | '/demo/relatorios'
     | '/master/configuracoes'
     | '/master/listaAcademias'
+    | '/master/listaempresa'
     | '/master/novaAcademia'
     | '/master/novaempresa'
     | '/master/painel'
@@ -735,6 +747,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MasterListaAcademiasRouteImport
       parentRoute: typeof MasterRoute
     }
+    '/master/listaempresa': {
+      id: '/master/listaempresa'
+      path: '/listaempresa'
+      fullPath: '/master/listaempresa'
+      preLoaderRoute: typeof MasterListaempresaRouteImport
+      parentRoute: typeof MasterRoute
+    }
     '/master/novaAcademia': {
       id: '/master/novaAcademia'
       path: '/novaAcademia'
@@ -831,6 +850,7 @@ const DemoRouteWithChildren = DemoRoute._addFileChildren(DemoRouteChildren)
 interface MasterRouteChildren {
   MasterConfiguracoesRoute: typeof MasterConfiguracoesRoute
   MasterListaAcademiasRoute: typeof MasterListaAcademiasRoute
+  MasterListaempresaRoute: typeof MasterListaempresaRoute
   MasterNovaAcademiaRoute: typeof MasterNovaAcademiaRoute
   MasterNovaempresaRoute: typeof MasterNovaempresaRoute
   MasterPainelRoute: typeof MasterPainelRoute
@@ -840,6 +860,7 @@ interface MasterRouteChildren {
 const MasterRouteChildren: MasterRouteChildren = {
   MasterConfiguracoesRoute: MasterConfiguracoesRoute,
   MasterListaAcademiasRoute: MasterListaAcademiasRoute,
+  MasterListaempresaRoute: MasterListaempresaRoute,
   MasterNovaAcademiaRoute: MasterNovaAcademiaRoute,
   MasterNovaempresaRoute: MasterNovaempresaRoute,
   MasterPainelRoute: MasterPainelRoute,
