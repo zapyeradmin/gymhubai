@@ -149,19 +149,15 @@ function Dashboard() {
       <div className="grid gap-6 mt-6 lg:grid-cols-3">
         <Card className="lg:col-span-2"><CardContent className="p-5">
           <h3 className="font-semibold mb-4">Aulas de hoje</h3>
-          {aulasHoje.length === 0 ? (
-            <div className="text-sm text-muted-foreground py-8 text-center">Nenhuma aula hoje</div>
+          {aulas.length === 0 ? (
+            <div className="text-sm text-muted-foreground py-8 text-center">Nenhuma aula hoje — configure a grade em Agenda</div>
           ) : (
             <div className="space-y-2">
-              {aulasHoje.map(a => (
+              {aulas.map(a => (
                 <div key={a.id} className="flex items-center justify-between border border-border rounded-md p-3">
                   <div>
                     <div className="font-medium">{a.name}</div>
-                    <div className="text-xs text-muted-foreground">{a.instructor_name} • {a.start_time?.slice(0,5)}–{a.end_time?.slice(0,5)}</div>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-sm font-semibold">{a.inscritos}/{a.max_capacity}</div>
-                    <div className="text-xs text-muted-foreground">inscritos</div>
+                    <div className="text-xs text-muted-foreground">{a.instructor_name || "—"} • {a.start_time?.slice(0,5)}–{a.end_time?.slice(0,5)}</div>
                   </div>
                 </div>
               ))}
