@@ -35,5 +35,7 @@ export function canAccess(permissoes: string[] | null | undefined, feature: stri
   return permissoes.includes(feature);
 }
 
-export const isOverStudentLimit = (activeCount: number, max: number | null | undefined) =>
+export const isOverLimit = (activeCount: number, max: number | null | undefined) =>
   max != null && activeCount >= max;
+
+export const isOverStudentLimit = isOverLimit;

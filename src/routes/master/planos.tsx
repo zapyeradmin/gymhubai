@@ -13,7 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Plus, Star, Users, Check } from "lucide-react";
+import { Plus, Star, Users, Check, UserCog } from "lucide-react";
 import { toast } from "sonner";
 import { fmtBRL } from "@/lib/format";
 import { PLAN_FEATURES, DURATIONS, type PlanDuration } from "@/lib/system-plans";
@@ -23,8 +23,8 @@ export const Route = createFileRoute("/master/planos")({
   component: MasterPlanos,
 });
 
-type Form = { id?: string; nome: string; descricao: string; max_alunos_ativos: number; valor: number; duracao: PlanDuration; permissoes: string[]; destaque: boolean };
-const empty: Form = { nome: "", descricao: "", max_alunos_ativos: 100, valor: 0, duracao: "recorrencia", permissoes: PLAN_FEATURES.map((f) => f.key), destaque: false };
+type Form = { id?: string; nome: string; descricao: string; max_alunos_ativos: number; max_equipe_ativos: number; valor: number; duracao: PlanDuration; permissoes: string[]; destaque: boolean };
+const empty: Form = { nome: "", descricao: "", max_alunos_ativos: 100, max_equipe_ativos: 10, valor: 0, duracao: "recorrencia", permissoes: PLAN_FEATURES.map((f) => f.key), destaque: false };
 
 function MasterPlanos() {
   const qc = useQueryClient();
@@ -87,6 +87,7 @@ function MasterPlanos() {
               <p className="text-xs text-muted-foreground min-h-[2rem]">{p.descricao ?? ""}</p>
               <div className="text-3xl font-bold">{fmtBRL(p.valor)} <span className="text-sm font-normal text-muted-foreground">/ {DURATIONS.find((d) => d.value === p.duracao)?.label}</span></div>
               <div className="flex items-center gap-2 text-sm"><Users className="h-4 w-4" />Até {p.max_alunos_ativos} alunos ativos</div>
+              <div className="flex items-center gap-2 text-sm"><UserCog className="h-4 w-4" />Até {p.max_equipe_ativos} colaboradores na equipe</div>
               <div className="flex flex-wrap gap-1">
                 {PLAN_FEATURES.filter((x) => p.permissoes.includes(x.key)).map((x) => (
                   <Badge key={x.key} variant="secondary" className="text-[10px]"><Check className="h-3 w-3 mr-0.5" />{x.label}</Badge>
@@ -94,7 +95,7 @@ function MasterPlanos() {
               </div>
               <div className="text-xs text-muted-foreground">{counts?.[p.id] ?? 0} empresa(s) neste plano</div>
               <div className="flex gap-2 pt-2">
-                <Button variant="outline" className="flex-1" onClick={() => { setF({ id: p.id, nome: p.nome, descricao: p.descricao ?? "", max_alunos_ativos: p.max_alunos_ativos, valor: Number(p.valor), duracao: p.duracao, permissoes: p.permissoes, destaque: p.destaque }); setOpen(true); }}>Editar</Button>
+                <Button variant="outline" className="flex-1" onClick={() => { setF({ id: p.id, nome: p.nome, descricao: p.descricao ?? "", max_alunos_ativos: p.max_alunos_ativos, max_equipe_ativos: p.max_equipe_ativos, valor: Number(p.valor), duracao: p.duracao, permissoes: p.permissoes, destaque: p.destaque }); setOpen(true); }}>Editar</Button>
                 <Button variant="ghost" onClick={() => toggleAtivo.mutate({ id: p.id, ativo: p.ativo })}>{p.ativo ? "Desativar" : "Ativar"}</Button>
               </div>
             </CardContent>
@@ -111,6 +112,7 @@ function MasterPlanos() {
             <div><Label>Quantidade de Alunos (Ativos) *</Label><Input type="number" min={0} required value={f.max_alunos_ativos} onChange={(e) => setF({ ...f, max_alunos_ativos: Number(e.target.value) })} /></div>
             <div><Label>Valor do Plano (R$) *</Label><Input type="number" min={0} step="0.01" required value={f.valor} onChange={(e) => setF({ ...f, valor: Number(e.target.value) })} /></div>
           </div>
+          <div><Label>Quantidade de Equipe (Ativos) *</Label><Input type="number" min={0} required value={f.max_equipe_ativos} onChange={(e) => setF({ ...f, max_equipe_ativos: Number(e.target.value) })} /></div>
           <div><Label>Tipo de Duração *</Label>
             <Select value={f.duracao} onValueChange={(v: PlanDuration) => setF({ ...f, duracao: v })}>
               <SelectTrigger><SelectValue /></SelectTrigger>

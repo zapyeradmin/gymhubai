@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { durationMonths, canAccess, isOverStudentLimit, featureFromPath } from "./system-plans";
+import { durationMonths, canAccess, isOverStudentLimit, isOverLimit, featureFromPath } from "./system-plans";
 
 describe("system plans", () => {
   it("maps durations to 1/3/6/12 months", () => {
@@ -11,6 +11,10 @@ describe("system plans", () => {
   it("blocks a new active student when limit reached", () => {
     expect(isOverStudentLimit(50, 50)).toBe(true);
     expect(isOverStudentLimit(49, 50)).toBe(false);
+  });
+  it("blocks a new active team member when team limit reached", () => {
+    expect(isOverLimit(15, 15)).toBe(true);
+    expect(isOverLimit(14, 15)).toBe(false);
   });
   it("blocks pages not in plan but allows dashboard and super admin", () => {
     expect(canAccess(["alunos"], featureFromPath("/app/financeiro"))).toBe(false);
