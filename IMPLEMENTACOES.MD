@@ -57,6 +57,7 @@ Registro de todas as implementações, ajustes e novas funções feitas até 21/
 - 0002: tabela `system_plan`, vínculo da empresa ao plano, limite de alunos.
 - 0003: limite de equipe por plano.
 - 0004: data de vencimento da empresa.
+- 0005: nome do app no banco atualizado para "Gym Hub".
 
 ## 9. Testes automáticos
 - Validação de CPF/CNPJ e máscaras.
@@ -69,3 +70,7 @@ Registro de todas as implementações, ajustes e novas funções feitas até 21/
 - Confirmar valores e limites dos planos iniciais.
 - Testar de ponta a ponta a criação em Nova Empresa e as ações da lista.
 - Remover a conta de teste.
+
+## 11. Nome do produto
+- Nome alterado de "GymBoss AI" para **Gym Hub** em todo o site: página inicial (topo, rodapé e direitos autorais), títulos de todas as páginas, mensagens de WhatsApp (criação de empresa e envio de acesso), e-mail de boas-vindas, área de demonstração e cadastro do app no banco de dados.
+- Mantido de propósito: o e-mail da conta de teste `teste.gymboss@example.com` (é o endereço real da conta) e o texto do arquivo de migração 0000, que já foi executado.
