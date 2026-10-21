@@ -40,6 +40,7 @@ export type Database = {
           site: string | null
           slug: string | null
           status: Database["public"]["Enums"]["academy_status"]
+          system_plan_id: string | null
           telefone: string | null
           tipo_empresa: Database["public"]["Enums"]["business_type"]
           trial_ate: string | null
@@ -73,6 +74,7 @@ export type Database = {
           site?: string | null
           slug?: string | null
           status?: Database["public"]["Enums"]["academy_status"]
+          system_plan_id?: string | null
           telefone?: string | null
           tipo_empresa?: Database["public"]["Enums"]["business_type"]
           trial_ate?: string | null
@@ -106,6 +108,7 @@ export type Database = {
           site?: string | null
           slug?: string | null
           status?: Database["public"]["Enums"]["academy_status"]
+          system_plan_id?: string | null
           telefone?: string | null
           tipo_empresa?: Database["public"]["Enums"]["business_type"]
           trial_ate?: string | null
@@ -114,7 +117,15 @@ export type Database = {
           valor_mensal?: number | null
           whatsapp?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "academy_system_plan_id_fkey"
+            columns: ["system_plan_id"]
+            isOneToOne: false
+            referencedRelation: "system_plan"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       academy_technical_responsible: {
         Row: {
@@ -615,6 +626,48 @@ export type Database = {
           },
         ]
       }
+      system_plan: {
+        Row: {
+          ativo: boolean
+          created_at: string
+          descricao: string | null
+          destaque: boolean
+          duracao: Database["public"]["Enums"]["plan_duration"]
+          id: string
+          max_alunos_ativos: number
+          nome: string
+          permissoes: string[]
+          updated_at: string
+          valor: number
+        }
+        Insert: {
+          ativo?: boolean
+          created_at?: string
+          descricao?: string | null
+          destaque?: boolean
+          duracao?: Database["public"]["Enums"]["plan_duration"]
+          id?: string
+          max_alunos_ativos?: number
+          nome: string
+          permissoes?: string[]
+          updated_at?: string
+          valor?: number
+        }
+        Update: {
+          ativo?: boolean
+          created_at?: string
+          descricao?: string | null
+          destaque?: boolean
+          duracao?: Database["public"]["Enums"]["plan_duration"]
+          id?: string
+          max_alunos_ativos?: number
+          nome?: string
+          permissoes?: string[]
+          updated_at?: string
+          valor?: number
+        }
+        Relationships: []
+      }
       team_member: {
         Row: {
           academy_id: string
@@ -718,6 +771,7 @@ export type Database = {
           site: string | null
           slug: string | null
           status: Database["public"]["Enums"]["academy_status"]
+          system_plan_id: string | null
           telefone: string | null
           tipo_empresa: Database["public"]["Enums"]["business_type"]
           trial_ate: string | null
@@ -782,6 +836,7 @@ export type Database = {
       lead_status: "novo" | "contatado" | "convertido" | "perdido"
       lead_type: "aula_experimental" | "trial_7dias" | "interesse_plano"
       payment_status: "em_dia" | "atrasado" | "pendente"
+      plan_duration: "recorrencia" | "trimestral" | "semestral" | "anual"
       student_gender: "M" | "F" | "Outro"
       student_status: "active" | "inactive" | "blocked" | "trial"
       team_role: "admin" | "professor" | "recepcao" | "personal"
@@ -946,6 +1001,7 @@ export const Constants = {
       lead_status: ["novo", "contatado", "convertido", "perdido"],
       lead_type: ["aula_experimental", "trial_7dias", "interesse_plano"],
       payment_status: ["em_dia", "atrasado", "pendente"],
+      plan_duration: ["recorrencia", "trimestral", "semestral", "anual"],
       student_gender: ["M", "F", "Outro"],
       student_status: ["active", "inactive", "blocked", "trial"],
       team_role: ["admin", "professor", "recepcao", "personal"],
