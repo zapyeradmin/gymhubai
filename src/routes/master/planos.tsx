@@ -19,7 +19,7 @@ import { fmtBRL } from "@/lib/format";
 import { PLAN_FEATURES, DURATIONS, type PlanDuration } from "@/lib/system-plans";
 
 export const Route = createFileRoute("/master/planos")({
-  head: () => ({ meta: [{ title: "Planos do sistema · GymBoss AI" }] }),
+  head: () => ({ meta: [{ title: "Planos do sistema · Gym Hub" }] }),
   component: MasterPlanos,
 });
 

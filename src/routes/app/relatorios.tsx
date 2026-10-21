@@ -27,7 +27,7 @@ function RelatoriosPage() {
         <Button onClick={() => window.print()} className="gap-2 bg-[#D97634] hover:bg-[#D97634]/90"><Printer className="h-4 w-4" /> Exportar PDF</Button>
       </div>
       <div className="hidden print:block mb-6">
-        <h1 className="text-2xl font-bold">Relatório GymBoss AI</h1>
+        <h1 className="text-2xl font-bold">Relatório Gym Hub</h1>
         <p className="text-sm text-muted-foreground">Gerado em {new Date().toLocaleString("pt-BR")}</p>
       </div>
 

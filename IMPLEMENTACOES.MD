@@ -1,4 +1,4 @@
-# GymBoss AI — Implementações realizadas
+# Gym Hub — Implementações realizadas
 
 Registro de todas as implementações, ajustes e novas funções feitas até 21/10/2026.
 

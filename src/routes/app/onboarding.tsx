@@ -68,7 +68,7 @@ function Onboarding() {
 
   return (
     <div className="max-w-2xl mx-auto">
-      <h1 className="text-2xl font-bold">Bem-vindo ao GymBoss AI</h1>
+      <h1 className="text-2xl font-bold">Bem-vindo ao Gym Hub</h1>
       <p className="text-muted-foreground">Vamos configurar sua academia em poucos passos.</p>
 
       <div className="flex items-center gap-2 my-6">

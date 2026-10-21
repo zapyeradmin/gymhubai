@@ -18,7 +18,7 @@ export async function sendWelcomeEmail(to: string, data: {
   nome_admin: string; nome_academia: string; senha: string; link_publico: string;
 }) {
   return enviarEmail({
-    data: { to, subject: `Bem-vindo a ${data.nome_academia} - GymBoss AI`, template: "welcome_academy_admin" as EmailTemplate, data },
+    data: { to, subject: `Bem-vindo a ${data.nome_academia} - Gym Hub`, template: "welcome_academy_admin" as EmailTemplate, data },
   });
 }
 
