@@ -44,6 +44,7 @@ import { Route as DemoRelatoriosRouteImport } from './routes/demo/relatorios'
 import { Route as MasterConfiguracoesRouteImport } from './routes/master/configuracoes'
 import { Route as MasterListaAcademiasRouteImport } from './routes/master/listaAcademias'
 import { Route as MasterNovaAcademiaRouteImport } from './routes/master/novaAcademia'
+import { Route as MasterNovaempresaRouteImport } from './routes/master/novaempresa'
 import { Route as MasterPainelRouteImport } from './routes/master/painel'
 import { Route as MasterPlanosRouteImport } from './routes/master/planos'
 
@@ -222,6 +223,11 @@ const MasterNovaAcademiaRoute = MasterNovaAcademiaRouteImport.update({
   path: '/novaAcademia',
   getParentRoute: () => MasterRoute,
 } as any)
+const MasterNovaempresaRoute = MasterNovaempresaRouteImport.update({
+  id: '/novaempresa',
+  path: '/novaempresa',
+  getParentRoute: () => MasterRoute,
+} as any)
 const MasterPainelRoute = MasterPainelRouteImport.update({
   id: '/painel',
   path: '/painel',
@@ -269,6 +275,7 @@ export interface FileRoutesByFullPath {
   '/master/configuracoes': typeof MasterConfiguracoesRoute
   '/master/listaAcademias': typeof MasterListaAcademiasRoute
   '/master/novaAcademia': typeof MasterNovaAcademiaRoute
+  '/master/novaempresa': typeof MasterNovaempresaRoute
   '/master/painel': typeof MasterPainelRoute
   '/master/planos': typeof MasterPlanosRoute
 }
@@ -308,6 +315,7 @@ export interface FileRoutesByTo {
   '/master/configuracoes': typeof MasterConfiguracoesRoute
   '/master/listaAcademias': typeof MasterListaAcademiasRoute
   '/master/novaAcademia': typeof MasterNovaAcademiaRoute
+  '/master/novaempresa': typeof MasterNovaempresaRoute
   '/master/painel': typeof MasterPainelRoute
   '/master/planos': typeof MasterPlanosRoute
 }
@@ -348,6 +356,7 @@ export interface FileRoutesById {
   '/master/configuracoes': typeof MasterConfiguracoesRoute
   '/master/listaAcademias': typeof MasterListaAcademiasRoute
   '/master/novaAcademia': typeof MasterNovaAcademiaRoute
+  '/master/novaempresa': typeof MasterNovaempresaRoute
   '/master/painel': typeof MasterPainelRoute
   '/master/planos': typeof MasterPlanosRoute
 }
@@ -389,6 +398,7 @@ export interface FileRouteTypes {
     | '/master/configuracoes'
     | '/master/listaAcademias'
     | '/master/novaAcademia'
+    | '/master/novaempresa'
     | '/master/painel'
     | '/master/planos'
   fileRoutesByTo: FileRoutesByTo
@@ -428,6 +438,7 @@ export interface FileRouteTypes {
     | '/master/configuracoes'
     | '/master/listaAcademias'
     | '/master/novaAcademia'
+    | '/master/novaempresa'
     | '/master/painel'
     | '/master/planos'
   id:
@@ -467,6 +478,7 @@ export interface FileRouteTypes {
     | '/master/configuracoes'
     | '/master/listaAcademias'
     | '/master/novaAcademia'
+    | '/master/novaempresa'
     | '/master/painel'
     | '/master/planos'
   fileRoutesById: FileRoutesById
@@ -730,6 +742,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MasterNovaAcademiaRouteImport
       parentRoute: typeof MasterRoute
     }
+    '/master/novaempresa': {
+      id: '/master/novaempresa'
+      path: '/novaempresa'
+      fullPath: '/master/novaempresa'
+      preLoaderRoute: typeof MasterNovaempresaRouteImport
+      parentRoute: typeof MasterRoute
+    }
     '/master/painel': {
       id: '/master/painel'
       path: '/painel'
@@ -813,6 +832,7 @@ interface MasterRouteChildren {
   MasterConfiguracoesRoute: typeof MasterConfiguracoesRoute
   MasterListaAcademiasRoute: typeof MasterListaAcademiasRoute
   MasterNovaAcademiaRoute: typeof MasterNovaAcademiaRoute
+  MasterNovaempresaRoute: typeof MasterNovaempresaRoute
   MasterPainelRoute: typeof MasterPainelRoute
   MasterPlanosRoute: typeof MasterPlanosRoute
 }
@@ -821,6 +841,7 @@ const MasterRouteChildren: MasterRouteChildren = {
   MasterConfiguracoesRoute: MasterConfiguracoesRoute,
   MasterListaAcademiasRoute: MasterListaAcademiasRoute,
   MasterNovaAcademiaRoute: MasterNovaAcademiaRoute,
+  MasterNovaempresaRoute: MasterNovaempresaRoute,
   MasterPainelRoute: MasterPainelRoute,
   MasterPlanosRoute: MasterPlanosRoute,
 }

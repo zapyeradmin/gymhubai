@@ -55,7 +55,7 @@ function Lista() {
       <PageHeader
         title="Academias"
         description="Todas as academias cadastradas."
-        actions={<Link to="/master/novaAcademia"><Button>Nova academia</Button></Link>}
+        actions={<Link to="/master/novaempresa"><Button>Nova Empresa</Button></Link>}
       />
       <Card>
         <CardContent className="p-0">

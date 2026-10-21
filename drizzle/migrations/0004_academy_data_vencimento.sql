@@ -1,0 +1,1 @@
+ALTER TABLE public.academy ADD COLUMN IF NOT EXISTS data_vencimento date;
