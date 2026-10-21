@@ -9,7 +9,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, LineChart, Line, CartesianGrid, Legend } from "recharts";
 import { fmtBRL } from "@/lib/format";
 import { format, subDays, startOfMonth } from "date-fns";
-import { demoAulasHoje, demoAIOpportunities, demoAlunosEvolution12m } from "@/lib/demo-data";
+import { demoAIOpportunities } from "@/lib/demo-data";
 import { BookingLinkCard } from "@/components/booking-link-card";
 
 export const Route = createFileRoute("/app/dashboard")({ component: Dashboard });
@@ -17,7 +17,7 @@ export const Route = createFileRoute("/app/dashboard")({ component: Dashboard })
 function Dashboard() {
   const { tenant } = useTenant();
   const aid = tenant?.academyId;
-  const today = format(new Date(), "yyyy-MM-dd");
+  const dow = new Date().getDay();
   const weekAgo = format(subDays(new Date(), 7), "yyyy-MM-dd");
   const monthStart = format(startOfMonth(new Date()), "yyyy-MM-dd");
 
@@ -25,7 +25,7 @@ function Dashboard() {
     queryKey: ["dashboard", aid],
     enabled: !!aid,
     queryFn: async () => {
-      const [students, todays, weeks, financial, last14, byHour, plans, newStudents, overdue] = await Promise.all([
+      const [students, todays, weeks, financial, last14, byHour, plans, newStudents, overdue, schedule, allStudents, ck30] = await Promise.all([
         supabase.from("student").select("id", { count: "exact", head: true }).eq("academy_id", aid!).eq("status", "active"),
         supabase.from("checkin").select("id", { count: "exact", head: true }).eq("academy_id", aid!).eq("date", today),
         supabase.from("checkin").select("id", { count: "exact", head: true }).eq("academy_id", aid!).gte("date", weekAgo),
